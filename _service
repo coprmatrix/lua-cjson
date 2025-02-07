@@ -1,0 +1,35 @@
+<services>
+    <service name="obs_scm">
+        <param name="url">https://github.com/openresty/lua-cjson</param>
+        <param name="scm">git</param>
+        <param name="revision">master</param>
+        <param name="without-version">enable</param>
+    </service>
+    <service name="lua2pack_generate" mode="buildtime">
+        <param name="rockspec">glob://./lua-cjson/*.rockspec</param>
+        <param name="template">rock.rockspec</param>
+        <param name="luacode">filename=package..'-'..version..'.rockspec'</param>
+    </service>
+    <service name="lua2pack_generate" mode="buildtime">
+        <param name="rockspec">glob://./*.rockspec</param>
+        <param name="template">obs.obsinfo</param>
+        <param name="luacode">name=package</param>
+    </service>
+    <service name="lua2pack_generate" mode="buildtime">
+        <param name="rockspec">glob://./*.rockspec</param>
+        <param name="luacode">autobuildreqs=true
+name=package
+expected_files=[[
+%dir %lua_noarchdir
+%dir %lua_archdir
+%dir %lua_noarchdir/cjson
+%dir %lua_archdir/cjson
+]]</param>
+        <param name="template">generic.spec</param>
+    </service>
+    <service name="tar" mode="buildtime"/>
+    <service name="recompress" mode="buildtime">
+        <param name="file">*.tar</param>
+        <param name="compression">gz</param>
+    </service>
+</services>
