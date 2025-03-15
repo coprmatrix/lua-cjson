@@ -17,14 +17,14 @@
     </service>
     <service name="lua2pack_generate" mode="buildtime">
         <param name="rockspec">glob://./*.rockspec</param>
-        <param name="luacode">autobuildreqs=true
+        <param name="luacode">
+autobuildreqs=true
 name=package
-expected_files=[[
-%dir %lua_noarchdir
-%dir %lua_archdir
-%dir %lua_noarchdir/cjson
-%dir %lua_archdir/cjson
-]]</param>
+add_macro={
+"__arch_install_post %{nil}",
+"__os_install_post %{nil}"
+}
+        </param>
         <param name="template">generic.spec</param>
     </service>
     <service name="tar" mode="buildtime"/>
